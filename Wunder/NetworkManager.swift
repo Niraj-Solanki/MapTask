@@ -73,7 +73,7 @@ enum APIRouter: URLRequestConvertible {
                     urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.acceptType.rawValue)
                 urlRequest.setValue(ContentType.json.rawValue, forHTTPHeaderField: HTTPHeaderField.contentType.rawValue)
         default:
-            print("No Authorization Required")
+            print("")
         }
         
         

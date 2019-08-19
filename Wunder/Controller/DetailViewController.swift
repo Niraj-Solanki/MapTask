@@ -49,6 +49,17 @@ class DetailViewController: UIViewController {
         }
     }
     
+    func showAlert(message:String) {
+        let alert = UIAlertController(title: "Wunder", message: message,
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Close", style: UIAlertActionStyle.default, handler: { _ in
+            //Close Action
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    
     //MARK:- API Calls
     func getVehicleDetails() {
         do {
@@ -62,6 +73,7 @@ class DetailViewController: UIViewController {
                     do {
                         if let json = try JSONSerialization.jsonObject(with: response.data!, options: []) as? [String:Any]
                         {
+                            print(json)
                             let carDetails = CarDetailModel.init(dict: json)
                             self.detailViewModel = DetailViewModel.init(model: carDetails)
                             self.updateUI()
@@ -84,18 +96,11 @@ class DetailViewController: UIViewController {
                 .validate()
                 .responseJSON(completionHandler: { (response) in
                     guard response.result.isSuccess else {
+                        self.showAlert(message: "Something Went Wrong!")
                         return
                     }
+                    self.showAlert(message: "Rent Successfully!")
                     
-                    do {
-                        if let json = try JSONSerialization.jsonObject(with: response.data!, options: []) as? [String:Any]
-                        {
-                            print(json)
-                        }
-                        
-                    } catch {
-                        print(error.localizedDescription)
-                    }
                 })
         } catch  {
             print("APi Route Fail")
